@@ -24,7 +24,7 @@ resource "aws_instance" "web" {
   instance_type = "t2.micro"
   key_name      = aws_key_pair.auth.id
 
-  vpc_security_group_ids = [aws_security_group.web.id]
+  vpc_security_group_ids = ["<security_group_id>"]
   subnet_id              = aws_subnet.public[count.index].id
   user_data              = <<EOF
 #!/bin/bash
@@ -37,8 +37,20 @@ echo "Provisioned with Terraform. Secured with tenable.cs" > /usr/share/nginx/ht
 docker run --name some-nginx -v /usr/share/nginx/html:/usr/share/nginx/html:ro -d -p 80:80 nginx:1.21.0
 EOF
   tags = {
-    Name = "${local.prefix.value}-ec2-${count.index}"
+    Name    = "${local.prefix.value}-ec2-${count.index}"
     vm-scan = "true"
+  }
+  monitoring           = true
+  iam_instance_profile = "<valid_iam_role>"
+
+  metadata_options {
+    http_endpoint = "disabled"
+    http_tokens   = "required"
+  }
+
+  metadata_options {
+    http_endpoint = "disabled"
+    http_tokens   = "required"
   }
 }
 
