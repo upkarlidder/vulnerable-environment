@@ -29,6 +29,19 @@ resource "aws_elb" "public_elb" {
   tags = {
     Name = var.elb_name
   }
+
+  access_logs {
+    enabled = true
+    bucket  = "<s3_bucket>"
+  }
+
+  listener {
+    instance_port      = 8000
+    instance_protocol  = "http"
+    lb_port            = 443
+    lb_protocol        = "https"
+    ssl_certificate_id = "<arn_of_ssl_certificate>"
+  }
 }
 
 output "elb_dns" {
