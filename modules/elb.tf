@@ -29,6 +29,22 @@ resource "aws_elb" "public_elb" {
   tags = {
     Name = var.elb_name
   }
+
+  listener {
+    ssl_certificate_id = "<arn_of_ssl_certificate>"
+    instance_port      = 8000
+    instance_protocol  = "http"
+    lb_port            = 443
+    lb_protocol        = "https"
+  }
+
+  listener {
+    ssl_certificate_id = "<arn_of_ssl_certificate>"
+    instance_port      = 8000
+    instance_protocol  = "http"
+    lb_port            = 443
+    lb_protocol        = "https"
+  }
 }
 
 output "elb_dns" {
