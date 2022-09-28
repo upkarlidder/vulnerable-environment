@@ -1,6 +1,6 @@
 module "elb" {
   #source         = "git@github.com:therasec/vulnerable-environment.git//modules"
-  #source         = "github.com/therasec/vulnerable-environment//modules"
+  #sources         = "github.com/therasec/vulnerable-environment//modules"
   source         = "./modules"
   elb_name       = "${local.prefix.value}-public-elb"
   subnets        = aws_subnet.public.*.id
